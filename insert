@@ -1,0 +1,131 @@
+
+Insert into public."Service"
+("ServiceCode","PublicID","Address","StopToleranceRadius","DefaultInitialLocationAddress", "IsActive");
+Values
+('DTHHMOON','Double Tree Moon Twp.','8402 University Blvd, Moon, PA 15108','20.6','8402 University Blvd, Moon, PA 15108','Y'),
+('LQInnPittAir','La Quinta Inn Pittsburgh Airport','8507 University Blvd, Moon, PA 15108',15.12,'8507 University Blvd, Moon, PA 15108'),
+('SheratonPittAir','Sheraton Pittsburgh Airport','1160 Thorn Run Rd, Coraopolis, PA 15108',30.7,'1160 Thorn Run Rd, Coraopolis, PA 15108'),
+('RenPitt','Renaissance Pittsburgh Hotel','107 6th St, Pittsburgh, PA 15222',12.2,'107 6th St, Pittsburgh, PA 15222'),
+
+CREATE TABLE public."User"
+(
+	"ID"                          Int  NOT NULL Unique,
+  "ServiceID"                   Int  NOT NULL,
+  "FName"     character varying(25)  NOT NULL,
+  "LName"     character varying(25)  NOT NULL,
+  "UserName"  character varying(25)  NOT NULL,
+  "Password"  character varying(25),
+  "Phone"     character varying(12),
+  "UserType"  character varying(10) NOT NULL,
+  PRIMARY KEY ("ID","ServiceID"),
+  Unique("ID"),
+  FOREIGN KEY ("ServiceID") References public."Service" ("ServiceID")
+);
+
+CREATE TABLE public."Driver"
+(
+  "ServiceID"                   INT NOT NULL Unique,
+  "ID"                          INT NOT NULL Unique,
+  "DriverLicense"               INT NOT NULL,
+  "IsActive"   character varying(1) NOT NULL,
+  "IsArchived" character varying(1) NOT NULL,
+  Unique("ID","ServiceID"),
+  Primary KEY ("ServiceID","ID"),
+  FOREIGN KEY ("ID") References public."User" ("ID"),
+  FOREIGN KEY ("ServiceID") References public."User" ("ServiceID")
+);
+
+CREATE TABLE public."Shuttle"
+(
+  "ServiceID"                  Int  NOT NULL Unique,
+  "ID"                      serial  NOT NULL Unique,
+  "VIN"                character varying(17),
+  "Name"               character varying(25),
+  "Make"               character varying(25),
+  "Model"              character varying(25),
+  "Year"                                 Int,
+  "IsActive"   character varying(1) NOT NULL,
+  "IsArchived" character varying(1) NOT NULL,
+  Unique("ID","ServiceID"),
+  Primary KEY ("ID","ServiceID"),
+  FOREIGN KEY ("ServiceID") References public."Service" ("ServiceID")
+);
+
+CREATE TABLE public."Stop"
+(
+	"ServiceID"                   		  Int NOT NULL Unique,
+	"ID"							   Serial NOT NULL Unique,
+	"Name"		  				 character varying(25),
+	"Address"   				 character varying(50),
+    "Latitude"  						 decimal(16,13),
+	"Longitude" 						 decimal(16,13),
+	"IsArchived" 		 character varying(1) NOT NULL,
+    Unique("ID","ServiceID"),
+	Primary KEY ("ID","ServiceID"),
+	Foreign Key ("ServiceID") References public."Service" ("ServiceID")
+);
+
+CREATE TABLE public."Route"
+(
+"ServiceID"                   		  Int NOT NULL Unique,
+"ID"				 			   serial NOT NULL Unique,
+"Name"		  				 character varying(25),
+"IsArchived" character varying(1) NOT NULL,
+"DefaultStartTime" 						 TIMESTAMP,
+Unique("ID","ServiceID"),
+	Primary Key ("ServiceID","ID"),
+	Foreign Key ("ServiceID") References public."Service" ("ServiceID")
+);
+
+CREATE TABLE public."Route_Stop"
+(
+	"RouteID"										 Int NOT NULL,
+	"StopID"										 Int NOT NULL,
+	"Index"											 Int NOT NULL,
+	"DefaultArriveOffset"				 TimeStamp NOT NULL,
+	"DefaultDepartOffset" 			 TimeStamp NOT NULL,
+	Primary Key ("RouteID","StopID","Index"),
+	Foreign Key ("RouteID") References public."Route" ("ID"),
+	Foreign Key ("StopID")   References public."Stop" ("ID")
+);
+
+CREATE TABLE public."Shuttle_Activity"
+(
+	"ID"					INT NOT NULL,
+	"Latitude"    Decimal(16,13) NOT NULL,
+	"Longitude"		Decimal(16,13) NOT NULL,
+	"Status"			character varying  (1),
+	Primary Key ("ID"),
+	Foreign Key ("ID") References public."Shuttle" ("ID")
+);
+
+CREATE TABLE public."Assignment"
+(
+"AssignmentID"			  Serial NOT NULL,
+"ServiceID"                  Int NOT NULL,
+"DriverID"                   Int NOT NULL,
+"ShuttleID"                  Int NOT NULL,
+"RouteID"		                      Int,
+"TimeStamp"                     TimeStamp,
+"RouteName"         character varying(25),
+  	Primary Key ("AssignmentID"),
+  	Foreign Key ("DriverID") References public."Driver" ("ID"),
+  	Foreign Key ("ShuttleID") References public."Shuttle" ("ID"),
+  	Foreign Key ("RouteID") References public."Route" ("ID"),
+	Foreign Key ("ServiceID") References public."Service" ("ServiceID")
+);
+
+
+CREATE TABLE public."Assignment_Stop"
+(
+"EstimatedTimeofArrival"			TimeStamp,
+"EstimatedTimeofDeparture"			TimeStamp,
+"TimeofArrival"						TimeStamp,
+"TimeofDeparture"					TimeStamp,
+"StopID"								  Int,
+"Address"				character varying(25),
+"Longitude"						Decimal(16,13),
+"Latitude"						Decimal(16,13),
+	Primary Key ("EstimatedTimeofArrival"),
+	Foreign Key ("StopID") References public."Stop"("ID")
+);
