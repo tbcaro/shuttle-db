@@ -1,15 +1,32 @@
 
+Drop Table public."Service";
+
+CREATE TABLE public."Service"
+(
+  "ServiceID"									   serial Unique,
+  "ServiceCode"						character varying(25) NOT NULL,
+  "PublicID" 						character varying(50) NOT NULL,
+  "Address"							character varying(50) NOT NULL,
+  "StopToleranceRadius"					 double precision NOT NULL,
+  "DefaultInitialLocationAddress" 			 character varying(50),
+  "IsActive"                 		 character varying(1) NOT NULL,
+  PRIMARY KEY ("ServiceID")
+);
 Insert into public."Service"
-("ServiceCode","PublicID","Address","StopToleranceRadius","DefaultInitialLocationAddress", "IsActive");
+("ServiceCode","PublicID","Address","StopToleranceRadius","DefaultInitialLocationAddress", "IsActive")
 Values
 ('DTHHMOON','Double Tree Moon Twp.','8402 University Blvd, Moon, PA 15108','20.6','8402 University Blvd, Moon, PA 15108','Y'),
-('LQInnPittAir','La Quinta Inn Pittsburgh Airport','8507 University Blvd, Moon, PA 15108',15.12,'8507 University Blvd, Moon, PA 15108'),
-('SheratonPittAir','Sheraton Pittsburgh Airport','1160 Thorn Run Rd, Coraopolis, PA 15108',30.7,'1160 Thorn Run Rd, Coraopolis, PA 15108'),
-('RenPitt','Renaissance Pittsburgh Hotel','107 6th St, Pittsburgh, PA 15222',12.2,'107 6th St, Pittsburgh, PA 15222'),
+('LQInnPittAir','La Quinta Inn Pittsburgh Airport','8507 University Blvd, Moon, PA 15108',15.12,'8507 University Blvd, Moon, PA 15108','Y'),
+('SheratonPittAir','Sheraton Pittsburgh Airport','1160 Thorn Run Rd, Coraopolis, PA 15108',30.7,'1160 Thorn Run Rd, Coraopolis, PA 15108','Y'),
+('RenPitt','Renaissance Pittsburgh Hotel','107 6th St, Pittsburgh, PA 15222',12.2,'107 6th St, Pittsburgh, PA 15222','N')
+Select * from public."Service"
 
+
+
+Drop Table public."User"
 CREATE TABLE public."User"
 (
-	"ID"                          Int  NOT NULL Unique,
+	"ID"                          Serial Unique,
   "ServiceID"                   Int  NOT NULL,
   "FName"     character varying(25)  NOT NULL,
   "LName"     character varying(25)  NOT NULL,
@@ -18,14 +35,26 @@ CREATE TABLE public."User"
   "Phone"     character varying(12),
   "UserType"  character varying(10) NOT NULL,
   PRIMARY KEY ("ID","ServiceID"),
-  Unique("ID"),
   FOREIGN KEY ("ServiceID") References public."Service" ("ServiceID")
 );
 
+Insert into public."User"
+("ServiceID","FName","LName","UserName","Password","Phone","UserType")
+Values
+(1,'Zachary','Kruise','zkruise','bigboy','124-987-3338','Driver'),
+(1,'Bachary','Bruise','bkruise','bigboy1','224-987-3338','Driver'),
+(2,'Cachary','Cruise','ckruise','','324-987-3338','Dispatcher'),
+(2,'Dachary','Druise','dkruise','bigboy2','424-987-3338','Driver'),
+(1,'Eachary','Eruise','ekruise','bigboy3','524-987-3338','Dispatcher'),
+(1,'Fachary','Fruise','fkruise','bigboy4','624-987-3338','Driver'),
+(2,'Gachary','Gruise','gkruise','','724-987-3338','Driver'),
+(2,'Hachary','Hruise','hkruise','bigboy5','824-987-3338','Driver')
+Select * from public."User"
+
 CREATE TABLE public."Driver"
 (
-  "ServiceID"                   INT NOT NULL Unique,
-  "ID"                          INT NOT NULL Unique,
+  "ServiceID"                   INT NOT NULL,
+  "ID"                          INT NOT NULL,
   "DriverLicense"               INT NOT NULL,
   "IsActive"   character varying(1) NOT NULL,
   "IsArchived" character varying(1) NOT NULL,
