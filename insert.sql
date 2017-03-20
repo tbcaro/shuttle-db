@@ -11,7 +11,6 @@ Drop TABLE public.Assignment CASCADE;
 Drop TABLE Assignment_Stop CASCADE; */
 -- Create Table Section--------------------------------------------
 -- Insert Table Section--------------------------------------------
-
 Insert into Service
 	( ServiceCode , PublicID , Address , StopToleranceRadius , DefaultInitialLocationAddress , IsActive )
 	Values
@@ -70,7 +69,7 @@ Insert into Route
 	Values
 	('1','DLL Con Center','N','4:30'),
 	('1','Airport','N','4:30'),
-	('2','North Shore','N','10:30'),
+	('2','North Shore','N','10:30');
 
 Insert into Route_Stop
 	( RouteID , StopID ,"Index", DefaultArriveOffset , DefaultDepartOffset)
@@ -92,25 +91,26 @@ Insert into Route_Stop
 Insert into Shuttle_Activity
   	("ID", Latitude, Longitude, Status)
 		Values
-		('1',40.503018, -80.222190,'D')
-		('2',40.496026, -80.255678,'S')
-		('4',40.512778, -80.276555,'D')
+		('1',40.503018, -80.222190,'D'),
+		('2',40.496026, -80.255678,'S'),
+		('4',40.512778, -80.276555,'D');
 
 Insert into public.Assignment
 	(ServiceID, DriverID, ShuttleID, RouteID, "TimeStamp", RouteName)
 	Values
-	(1,1,1,1,'5:30','Convention Center'),
-	(1,2,2,2,'6:45','Airport'),
-	(1,2,2,1,'7:30','Convention Center');
+	(1,1,1,1,'2017-01-28 05:30:00','Convention Center'),
+	(1,2,2,2,'2017-01-28 05:30:00','Airport'),
+	(1,2,2,1,'2017-01-28 07:30:00','Convention Center');
 
 Insert into Assignment_Stop
 	(EstimatedTimeofArrival, EstimatedTimeofDeparture, TimeofArrival, TimeofDeparture, StopID, Address, Longitude, Latitude)
 	Values
-	('4:30','4:35','','','1','','',''),
-	('4:45','4:55','','','','8508 University Blvd, Moon, PA 15108'),
-	('5:05','5:20','','','','',40.495799, -80.255695),
-	('5:30','5:35','','','1','','','');
+	('2017-01-28 4:30','2017-01-28 4:35',NULL,NULL,'1','',NULL,NULL),
+	('2017-01-28 4:45','2017-01-28 4:55',NULL,NULL,NULL,'8508 Univ Blvd, 15108',NULL,NULL),
+	('2017-01-28 5:05','2017-01-28 5:20',NULL,NULL,NULL,'',40.495799, -80.255695),
+	('2017-01-28 5:30','2017-01-28 5:35',NULL,NULL,'1','',NULL,NULL);
 -- Select Statements Section --------------------------------------
+
 Select * from Service;
 Select * from public.User;
 Select * from Driver;
