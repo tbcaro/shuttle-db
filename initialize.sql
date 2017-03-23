@@ -12,11 +12,11 @@ CREATE DATABASE mrshuttle
 CREATE TABLE Service
 	(
 		ServiceID 									  serial Unique,
-		ServiceCode 						character varying(25) NOT NULL,
-		PublicID 						character varying(50) NOT NULL,
+		ServiceCode 						character varying(25) NOT NULL Unique,
+		PublicID 						character varying(50) NOT NULL Unique,
 		Address 							character varying(50) NOT NULL,
-		StopToleranceRadius 					 double precision NOT NULL,
-		DefaultInitialLocationAddress 			 character varying(50),
+		-- StopToleranceRadius 					 double precision NOT NULL,
+		-- DefaultInitialLocationAddress 			 character varying(50),
 		IsActive         		 boolean,
 	 PRIMARY KEY ( ServiceID )
 	);
@@ -31,7 +31,7 @@ CREATE TABLE public.User
 		LName   character varying(50) NOT NULL,
 		UserName  character varying(25) NOT NULL,
 		"Password"  character varying(25),
-		Phone   character varying(12),
+		-- Phone   character varying(12),
 		UserType  UserType NOT NULL,
 	 PRIMARY KEY ( UserName , ServiceID ),
 	 FOREIGN KEY ( ServiceID ) References public.Service ( ServiceID )
@@ -41,7 +41,7 @@ CREATE TABLE Driver
 	(
 		ServiceID          INT NOT NULL,
 		"ID"               INT NOT NULL,
-		DriverLicenseExpiration   TimeStamp NOT NULL,
+		-- DriverLicenseExpiration   TimeStamp NOT NULL,
 		IsActive  boolean,
 		IsArchived boolean,
 	 Unique( "ID" , ServiceID ),
@@ -54,11 +54,11 @@ CREATE TABLE Shuttle
 	(
 		ServiceID          Int NOT NULL,
 		"ID"            serial NOT NULL Unique,
-		VIN         character varying(17),
+		-- VIN         character varying(17),
 		"Name"        character varying(25),
-		Make        character varying(25),
-		Model        character varying(25),
-		"Year"                 Int,
+		-- Make        character varying(25),
+		-- Model        character varying(25),
+		-- "Year"                 Int,
 		IsActive  boolean,
 		IsArchived boolean,
         Unique( "ID" , ServiceID ),
@@ -103,14 +103,17 @@ CREATE TABLE Route_Stop
 		Foreign Key ( StopID) References public.Stop ( "ID" )
 	);
 
+-- TODO : Create enum for Status
 CREATE TABLE Shuttle_Activity
 	(
-		 "ID" 				   INT NOT NULL,
+		 ShuttleID				   INT NOT NULL Unique,
+     AssignmentID    INT,
 		 Latitude         Decimal(16,13) NOT NULL,
 		 Longitude 		  Decimal(16,13) NOT NULL,
 		 Status 			character varying (1),
-		Primary Key ( "ID" ),
-		Foreign Key ( "ID" ) References public.Shuttle ( "ID" )
+		Primary Key ( ShuttleID ),
+		Foreign Key ( ShuttleID ) References public.Shuttle ( "ID" ),
+    Foreign Key ( AssignmentID ) References public.Assignment ( AssignmentID )
 	);
 
 -- reference assignment and make a current index
@@ -130,6 +133,7 @@ CREATE TABLE public.Assignment
         Foreign Key ( ServiceID ) References public.Service ( ServiceID )
     );
 
+-- TODO : Make legitimate PK
 CREATE TABLE Assignment_Stop
 	(
 	 EstimatedTimeofArrival 	TimeStamp,
