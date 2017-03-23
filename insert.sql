@@ -14,10 +14,10 @@ Drop TABLE Assignment_Stop CASCADE; */
 Insert into Service
 	( ServiceCode , PublicID , Address , StopToleranceRadius , DefaultInitialLocationAddress , IsActive )
 	Values
-	('DTHHMOON','Double Tree Moon Twp.','8402 University Blvd, Moon, PA 15108','20.6','8402 University Blvd, Moon, PA 15108','Y'),
-	('LQInnPittAir','La Quinta Inn Pittsburgh Airport','8507 University Blvd, Moon, PA 15108',15.12,'8507 University Blvd, Moon, PA 15108','Y'),
-	('SheratonPittAir','Sheraton Pittsburgh Airport','1160 Thorn Run Rd, Coraopolis, PA 15108',30.7,'1160 Thorn Run Rd, Coraopolis, PA 15108','Y'),
-	('RenPitt','Renaissance Pittsburgh Hotel','107 6th St, Pittsburgh, PA 15222',12.2,'107 6th St, Pittsburgh, PA 15222','N');
+	('DTHHMOON','Double Tree Moon Twp.','8402 University Blvd, Moon, PA 15108','20.6','8402 University Blvd, Moon, PA 15108',TRUE),
+	('LQInnPittAir','La Quinta Inn Pittsburgh Airport','8507 University Blvd, Moon, PA 15108',15.12,'8507 University Blvd, Moon, PA 15108',True),
+	('SheratonPittAir','Sheraton Pittsburgh Airport','1160 Thorn Run Rd, Coraopolis, PA 15108',30.7,'1160 Thorn Run Rd, Coraopolis, PA 15108',True),
+	('RenPitt','Renaissance Pittsburgh Hotel','107 6th St, Pittsburgh, PA 15222',12.2,'107 6th St, Pittsburgh, PA 15222',False);
 
 Insert into public.User
 	( ServiceID , FName , LName , UserName , "Password" , Phone , UserType )
@@ -44,32 +44,32 @@ Insert into Driver
 Insert into Shuttle
 	( ServiceID, VIN, "Name", Make, Model, "Year", IsActive, IsArchived)
 	Values
-	(1,'12345678911234567','BigBoyBus','Chevrolet','Express','2017','Y','N'),
-	(1,'22345678911234568','BigBoyBus2','Chevrolet','Express','2017','Y','N'),
-	(2,'32345678911234567','Bus1','GMC','Savana','2011','Y','N'),
-	(2,'42345678911234567','Bus2','GMC','Savana','2015','Y','N');
+	(1,'12345678911234567','BigBoyBus','Chevrolet','Express','2017',True,False),
+	(1,'22345678911234568','BigBoyBus2','Chevrolet','Express','2017',True,False),
+	(2,'32345678911234567','Bus1','GMC','Savana','2011',True,False),
+	(2,'42345678911234567','Bus2','GMC','Savana','2015',True,False);
 
 Insert into Stop
 	( ServiceID , "Name" , Address , Latitude , Longitude , IsArchived )
 	Values
-	('1','Robert Morris University','6001 University Blvd, Moon, PA 15108', 40.519426, -80.216499,'N'),
-	('1','David L Lawerence Convention Center','1000 Fort Duquesne Blvd, Pittsburgh, PA 15222',40.444927, -79.995739, 'N'),
-	('1','Point State Park','',40.441254, -80.007201,'N'),
-	('1','The Art Institute','420 Boulevard of the Allies, Pittsburgh, PA 15219',40.437416, -79.999350,'N'),
-	('2', 'Heinz Field','100 Art Rooney Ave, Pittsburgh, PA 15212',40.445217, -80.013759,'N'),
-	('2', 'PNC Park','115 Federal St, Pittsburgh, PA 15212', 40.447758, -80.006909, 'N'),
-	('2', 'Cedar Avenue','', 40.453391, -80.001700, 'N'),
-	('1', 'Double Tree Moon','8402 University Blvd, Moon, PA 15108',NULL,NULL,'N'),
-	('1', 'Pitt Airport','1000 Airport Blvd, Pittsburgh, PA 15231',40.495799, -80.255695,'N'),
-	('2', 'La Quinta Inn Pittsburgh Airport', '8507 University Blvd, Moon, PA 15108', NULL, NULL,'N'),
+	('1','Robert Morris University','6001 University Blvd, Moon, PA 15108', 40.519426, -80.216499,False),
+	('1','David L Lawerence Convention Center','1000 Fort Duquesne Blvd, Pittsburgh, PA 15222',40.444927, -79.995739, False),
+	('1','Point State Park','',40.441254, -80.007201,False),
+	('1','The Art Institute','420 Boulevard of the Allies, Pittsburgh, PA 15219',40.437416, -79.999350,False),
+	('2', 'Heinz Field','100 Art Rooney Ave, Pittsburgh, PA 15212',40.445217, -80.013759,False),
+	('2', 'PNC Park','115 Federal St, Pittsburgh, PA 15212', 40.447758, -80.006909, False),
+	('2', 'Cedar Avenue','', 40.453391, -80.001700, False),
+	('1', 'Double Tree Moon','8402 University Blvd, Moon, PA 15108',NULL,NULL,False),
+	('1', 'Pitt Airport','1000 Airport Blvd, Pittsburgh, PA 15231',40.495799, -80.255695,False),
+	('2', 'La Quinta Inn Pittsburgh Airport', '8507 University Blvd, Moon, PA 15108', NULL, NULL,False),
 	('2', 'Pitt Airport','1000 Airport Blvd, Pittsburgh, PA 15231',40.495799, -80.255695,'N');
 
 Insert into Route
 	( ServiceID , "Name" , IsArchived , DefaultStartTime )
 	Values
-	('1','DLL Con Center','N','4:30'),
-	('1','Airport','N','4:30'),
-	('2','North Shore','N','10:30');
+	('1','DLL Con Center',False,'4:30'),
+	('1','Airport',False,'4:30'),
+	('2','North Shore',False,'10:30');
 
 Insert into Route_Stop
 	( RouteID , StopID ,"Index", DefaultArriveOffset , DefaultDepartOffset)
@@ -109,15 +109,3 @@ Insert into Assignment_Stop
 	('2017-01-28 4:45','2017-01-28 4:55',NULL,NULL,NULL,'8508 Univ Blvd, 15108',NULL,NULL),
 	('2017-01-28 5:05','2017-01-28 5:20',NULL,NULL,NULL,'',40.495799, -80.255695),
 	('2017-01-28 5:30','2017-01-28 5:35',NULL,NULL,'1','',NULL,NULL);
--- Select Statements Section --------------------------------------
-
-Select * from Service;
-Select * from public.User;
-Select * from Driver;
-Select * from Shuttle;
-Select * from Stop;
-Select * from Route;
-Select * from Route_Stop;
-Select * from Shuttle_Activity;
-Select * from public.Assignment;
-Select * from Assignment_Stop;
