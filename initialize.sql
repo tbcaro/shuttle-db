@@ -56,6 +56,7 @@ CREATE TABLE Shuttle
 		"ID"            serial NOT NULL Unique,
 		-- VIN         character varying(17),
 		"Name"        character varying(25),
+    IconColor     character varying(7),
 		-- Make        character varying(25),
 		-- Model        character varying(25),
 		-- "Year"                 Int,
