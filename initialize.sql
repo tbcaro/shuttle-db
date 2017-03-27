@@ -1,23 +1,12 @@
--- Database: postgres
--- drop database mrshuttle
-CREATE DATABASE mrshuttle
-    WITH
-    OWNER = postgres
-    ENCODING = 'UTF8'
-    LC_COLLATE = 'en_US.UTF-8'
-    LC_CTYPE = 'en_US.UTF-8'
-    TABLESPACE = pg_default
-    CONNECTION LIMIT = -1;
-
 CREATE TABLE Service
 	(
 		ServiceID 									  serial Unique,
-		ServiceCode 						character varying(25) NOT NULL Unique,
+		ServiceCode 						character varying(50) NOT NULL Unique,
 		PublicID 						character varying(50) NOT NULL Unique,
 		Address 							character varying(50) NOT NULL,
 		-- StopToleranceRadius 					 double precision NOT NULL,
 		-- DefaultInitialLocationAddress 			 character varying(50),
-		IsActive         		 boolean,
+		IsActive         		 boolean NOT NULL,
 	 PRIMARY KEY ( ServiceID )
 	);
 
@@ -40,11 +29,10 @@ CREATE TABLE public.User
 CREATE TABLE Driver
 	(
 		ServiceID          INT NOT NULL,
-		"ID"               INT NOT NULL,
+		"ID"               INT NOT NULL UNIQUE,
 		-- DriverLicenseExpiration   TimeStamp NOT NULL,
-		IsActive  boolean,
-		IsArchived boolean,
-	 Unique( "ID" , ServiceID ),
+		IsActive  boolean NOT NULL,
+		IsArchived boolean NOT NULL,
 	 Primary KEY ( ServiceID , "ID" ),
 	 FOREIGN KEY ( "ID" ) References public.User ( "ID" ),
 	 FOREIGN KEY ( ServiceID ) References public.Service ( ServiceID )
@@ -55,13 +43,13 @@ CREATE TABLE Shuttle
 		ServiceID          Int NOT NULL,
 		"ID"            serial NOT NULL Unique,
 		-- VIN         character varying(17),
-		"Name"        character varying(25),
+		"Name"        character varying(50),
     IconColor     character varying(7),
 		-- Make        character varying(25),
 		-- Model        character varying(25),
 		-- "Year"                 Int,
-		IsActive  boolean,
-		IsArchived boolean,
+		IsActive  boolean NOT NULL,
+		IsArchived boolean NOT NULL,
         Unique( "ID" , ServiceID ),
 	 Primary KEY ( "ID" , ServiceID ),
 	 FOREIGN KEY ( ServiceID ) References public.Service ( ServiceID )
@@ -70,11 +58,11 @@ CREATE TABLE Shuttle
 CREATE TABLE Stop
 	(
 		 ServiceID          		Int NOT NULL,
-		 "ID" 						Serial NOT NULL Unique,
-		 "Name" 					character varying(50),
-		 Address  				 	character varying(50),
-		 Latitude	 				decimal(16,13),
-		 Longitude 					decimal(16,13),
+		 "ID" 									Serial NOT NULL Unique,
+		 "Name" 								character varying(50),
+		 Address  				 			character varying(50),
+		 Latitude	 							decimal(16,13) NOT NULL,
+		 Longitude 							decimal(16,13) NOT NULL,
 		IsArchived boolean,
 		Unique( "ID" , ServiceID ),
 		Primary KEY ( "ID" , ServiceID ),
@@ -84,10 +72,10 @@ CREATE TABLE Stop
 CREATE TABLE Route
 	(
 	 ServiceID          		 Int NOT NULL,
-	 "ID" 				 			  serial NOT NULL Unique,
-	 "Name" 		 				 character varying(25),
-		IsArchived boolean,
-	 --DefaultStartTime 						 TIME,
+	 "ID" 				 			     serial NOT NULL Unique,
+	 "Name" 		 				     character varying(50),
+		IsArchived boolean  NOT NULL,
+	 -- DefaultStartTime 						 TIME,
 	Primary Key ( ServiceID , "ID" ),
 	Foreign Key ( ServiceID ) References public.Service ( ServiceID )
 	);
@@ -96,55 +84,75 @@ CREATE TABLE Route_Stop
 	(
 		 RouteID 										 Int NOT NULL,
 		 StopID 										 Int NOT NULL,
-		 "Index" 									     Int NOT NULL,
-		-- DefaultArriveOffset 		     Time NOT NULL,
+		 "Index" 									   Int NOT NULL,
+		-- DefaultArriveOffset 		   Time NOT NULL,
 		-- DefaultDepartOffset 			 Time NOT NULL,
 		Primary Key ( RouteID , StopID , "Index" ),
 		Foreign Key ( RouteID ) References public.Route ( "ID" ),
 		Foreign Key ( StopID) References public.Stop ( "ID" )
 	);
 
--- TODO : Create enum for Status
-CREATE TABLE Shuttle_Activity
-	(
-		 ShuttleID				   INT NOT NULL Unique,
-     AssignmentID    INT,
-		 Latitude         Decimal(16,13) NOT NULL,
-		 Longitude 		  Decimal(16,13) NOT NULL,
-		 Status 			character varying (1),
-		Primary Key ( ShuttleID ),
-		Foreign Key ( ShuttleID ) References public.Shuttle ( "ID" ),
-    Foreign Key ( AssignmentID ) References public.Assignment ( AssignmentID )
-	);
-
 -- reference assignment and make a current index
+--starttime split between date and time
 CREATE TABLE public.Assignment
 	(
-        AssignmentID 			 Serial NOT NULL,
+        AssignmentID 			 Serial NOT NULL, -- done
         ServiceID          Int NOT NULL,
         DriverID           Int NOT NULL,
         ShuttleID          Int NOT NULL,
-        RouteID 		           Int,
-        "TimeStamp"           TimeStamp,
-        RouteName     character varying(25),
-        Primary Key ( AssignmentID ),
-        Foreign Key ( DriverID ) References public.User ( "ID" ),
+        RouteID 		       Int,
+        StartTime          Time,
+				StartDate					 Date,
+        RouteName     		 character varying(50),
+				IsArchived boolean NOT NULL,
+        Primary Key ( AssignmentID ), -- done
+        Foreign Key ( DriverID ) References public.Driver ( "ID" ),
         Foreign Key ( ShuttleID ) References public.Shuttle ( "ID" ),
         Foreign Key ( RouteID ) References public.Route ( "ID" ),
         Foreign Key ( ServiceID ) References public.Service ( ServiceID )
     );
 
+
+-- TODO : Create enum for Status
+-- Active, In Progress, At Stop
+
+CREATE TYPE Shuttle_Status AS ENUM ('Active', 'In Progress', 'At Stop');
+
+CREATE TABLE Shuttle_Activity
+	(
+		 ShuttleID		  	INT NOT NULL Unique,
+		 DriverID					INT,
+     AssignmentID     INT,
+		 Assignment_Stop_ID INT,
+		 "Index"					INT,
+		 Latitude         Decimal(16,13) NOT NULL,
+		 Longitude 		    Decimal(16,13) NOT NULL,
+		 Heading					Decimal(16,13) NOT NULL,
+		 Status 			Shuttle_Status NOT NULL,
+		Primary Key ( ShuttleID ),
+		Foreign Key (Assignment_Stop_ID) References public.Assignment_Stop (Assignment_Stop_ID)
+		Foreign Key ("Index") References public.Assignment_Stop ("Index")
+		Foreign Key ( DriverID ) References public.Driver ( "ID" ),
+		Foreign Key ( ShuttleID ) References public.Shuttle ( "ID" ),
+    	Foreign Key ( AssignmentID ) References public.Assignment ( AssignmentID )
+	);
+
 -- TODO : Make legitimate PK
+-- DONE
 CREATE TABLE Assignment_Stop
 	(
-	 EstimatedTimeofArrival 	TimeStamp,
-	 EstimatedTimeofDeparture TimeStamp,
-	 TimeofArrival 						TimeStamp,
+	 Assignment_Stop_ID				Serial Not Null,
+	 AssignmentID									Int,
+	 "Index"											Int,
+	 EstimatedTimeofArrival				TimeStamp,
+	 EstimatedTimeofDeparture			TimeStamp,
+	 TimeofArrival						TimeStamp,
 	 TimeofDeparture 					TimeStamp,
 	 StopID 								  Int,
-	 Address 				character varying(25),
-	 Longitude 						Decimal(16,13),
+	 Address 				character varying(50),
+	 Longitude						Decimal(16,13),
 	 Latitude 						Decimal(16,13),
-		Primary Key ( EstimatedTimeofArrival ),
-		Foreign Key ( StopID ) References public.Stop ( "ID" )
+		Primary Key (Assignment_Stop_ID),
+		Foreign Key ( StopID ) References public.Stop ( "ID" ),
+		Foreign Key ( AssignmentID ) References public.Assignment (AssignmentID)
 	);
