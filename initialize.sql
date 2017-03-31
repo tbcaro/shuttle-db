@@ -130,7 +130,7 @@ CREATE TABLE Assignment_Stop
 		Foreign Key ( AssignmentID ) References public.Assignment (AssignmentID)
 	);
 
-CREATE TYPE Shuttle_Status AS ENUM ('ACTIVE', 'IN_PROGRESS', 'AT_STOP');
+CREATE TYPE Shuttle_Status AS ENUM ('ACTIVE', 'DRIVING', 'AT_STOP');
 
 CREATE TABLE Shuttle_Activity
 	(

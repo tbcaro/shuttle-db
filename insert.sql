@@ -94,7 +94,7 @@ Insert into Shuttle_Activity
 	(ShuttleID, Latitude, Longitude, Status, heading)
 	Values
 	  ('1',40.503018, -80.222190,'ACTIVE', 0),
-	  ('2',40.496026, -80.255678,'IN_PROGRESS', 90),
+	  ('2',40.496026, -80.255678,'DRIVING', 90),
 	  ('4',40.512778, -80.276555,'AT_STOP', 180);
 
 Insert into public.Assignment
