@@ -93,9 +93,9 @@ Insert into Route_Stop
 Insert into Shuttle_Activity
 	(ShuttleID, Latitude, Longitude, Status, heading)
 	Values
-	  ('1',40.503018, -80.222190,'Active', 0),
-	  ('2',40.496026, -80.255678,'In Progress', 90),
-	  ('4',40.512778, -80.276555,'At Stop', 180);
+	  ('1',40.503018, -80.222190,'ACTIVE', 0),
+	  ('2',40.496026, -80.255678,'IN_PROGRESS', 90),
+	  ('4',40.512778, -80.276555,'AT_STOP', 180);
 
 Insert into public.Assignment
 	(ServiceID, DriverID, ShuttleID, RouteID, StartTime, RouteName, isarchived)
