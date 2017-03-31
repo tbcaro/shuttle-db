@@ -10,7 +10,7 @@ CREATE TABLE Service
 	 PRIMARY KEY ( ServiceID )
 	);
 
-CREATE TYPE UserType AS ENUM ('Driver', 'Dispatcher');
+CREATE TYPE UserType AS ENUM ('DRIVER', 'DISPATCHER');
 
 CREATE TABLE public.User
 	(

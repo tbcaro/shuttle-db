@@ -24,14 +24,14 @@ Insert into Service
 Insert into public.User
 	( ServiceID , FName , LName , UserName , "Password" , UserType )
 	Values
-	(1,'Zachary','Kruise','zkruise','bigboy','Driver'),
-	(1,'Bachary','Bruise','bkruise','bigboy1','Driver'),
-	(2,'Cachary','Cruise','ckruise','bigboy2','Dispatcher'),
-	(2,'Dachary','Druise','dkruise','bigboy2','Driver'),
-	(1,'Eachary','Eruise','ekruise','bigboy3','Dispatcher'),
-	(1,'Fachary','Fruise','fkruise','bigboy4','Driver'),
-	(2,'Gachary','Gruise','gkruise','bigboy2','Driver'),
-	(2,'Hachary','Hruise','hkruise','bigboy5','Driver');
+	(1,'Zachary','Kruise','zkruise','bigboy','DRIVER'),
+	(1,'Bachary','Bruise','bkruise','bigboy1','DRIVER'),
+	(2,'Cachary','Cruise','ckruise','bigboy2','DISPATCHER'),
+	(2,'Dachary','Druise','dkruise','bigboy2','DRIVER'),
+	(1,'Eachary','Eruise','ekruise','bigboy3','DISPATCHER'),
+	(1,'Fachary','Fruise','fkruise','bigboy4','DRIVER'),
+	(2,'Gachary','Gruise','gkruise','bigboy2','DRIVER'),
+	(2,'Hachary','Hruise','hkruise','bigboy5','DRIVER');
 
 Insert into Driver
 	( ServiceID , "ID" , IsActive , IsArchived )
