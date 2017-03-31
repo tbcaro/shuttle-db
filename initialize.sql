@@ -112,33 +112,6 @@ CREATE TABLE public.Assignment
         Foreign Key ( ServiceID ) References public.Service ( ServiceID )
     );
 
-
--- TODO : Create enum for Status
--- Active, In Progress, At Stop
-
-CREATE TYPE Shuttle_Status AS ENUM ('Active', 'In Progress', 'At Stop');
-
-CREATE TABLE Shuttle_Activity
-	(
-		 ShuttleID		  	INT NOT NULL Unique,
-		 DriverID					INT,
-     AssignmentID     INT,
-		 Assignment_Stop_ID INT,
-		 "Index"					INT,
-		 Latitude         Decimal(16,13) NOT NULL,
-		 Longitude 		    Decimal(16,13) NOT NULL,
-		 Heading					Decimal(16,13) NOT NULL,
-		 Status 			Shuttle_Status NOT NULL,
-		Primary Key ( ShuttleID ),
-		Foreign Key (Assignment_Stop_ID) References public.Assignment_Stop (Assignment_Stop_ID)
-		Foreign Key ("Index") References public.Assignment_Stop ("Index")
-		Foreign Key ( DriverID ) References public.Driver ( "ID" ),
-		Foreign Key ( ShuttleID ) References public.Shuttle ( "ID" ),
-    	Foreign Key ( AssignmentID ) References public.Assignment ( AssignmentID )
-	);
-
--- TODO : Make legitimate PK
--- DONE
 CREATE TABLE Assignment_Stop
 	(
 	 Assignment_Stop_ID				Serial Not Null,
@@ -155,4 +128,25 @@ CREATE TABLE Assignment_Stop
 		Primary Key (Assignment_Stop_ID),
 		Foreign Key ( StopID ) References public.Stop ( "ID" ),
 		Foreign Key ( AssignmentID ) References public.Assignment (AssignmentID)
+	);
+
+CREATE TYPE Shuttle_Status AS ENUM ('Active', 'In Progress', 'At Stop');
+
+CREATE TABLE Shuttle_Activity
+	(
+		 ShuttleID		  	INT NOT NULL Unique,
+		 DriverID					INT,
+     AssignmentID     INT,
+		 Assignment_Stop_ID INT,
+		 "Index"					INT,
+		 Latitude         Decimal(16,13) NOT NULL,
+		 Longitude 		    Decimal(16,13) NOT NULL,
+		 Heading					Decimal(16,13) NOT NULL,
+		 Status 			Shuttle_Status NOT NULL,
+		Primary Key ( ShuttleID ),
+		Foreign Key (Assignment_Stop_ID) References public.Assignment_Stop (Assignment_Stop_ID),
+		-- Foreign Key ("Index") References public.Assignment_Stop ("Index")
+		Foreign Key ( DriverID ) References public.Driver ( "ID" ),
+		Foreign Key ( ShuttleID ) References public.Shuttle ( "ID" ),
+    	Foreign Key ( AssignmentID ) References public.Assignment ( AssignmentID )
 	);
