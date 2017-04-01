@@ -98,11 +98,11 @@ Insert into Shuttle_Activity
 	  ('4',40.512778, -80.276555,'AT_STOP', 180);
 
 Insert into public.Assignment
-	(ServiceID, DriverID, ShuttleID, RouteID, StartTime, RouteName, isarchived)
+	(ServiceID, DriverID, ShuttleID, RouteID, StartTime, RouteName, Status, isarchived)
 	Values
-	  (1,1,1,1,'2017-01-28 05:30:00','Convention Center',false),
-	  (1,2,2,2,'2017-01-28 05:30:00','Airport',false),
-	  (1,2,2,1,'2017-01-28 07:30:00','Convention Center',false);
+	  (1,1,1,1,'2017-01-28 05:30:00','Convention Center','SCHEDULED',false),
+	  (1,2,2,2,'2017-01-28 05:30:00','Airport','SCHEDULED',false),
+	  (1,2,2,1,'2017-01-28 07:30:00','Convention Center','SCHEDULED',false);
 
 Insert into Assignment_Stop
 	(EstimatedTimeofArrival, EstimatedTimeofDeparture, TimeofArrival, TimeofDeparture, StopID, Address, Longitude, Latitude)

@@ -94,6 +94,8 @@ CREATE TABLE Route_Stop
 
 -- reference assignment and make a current index
 --starttime split between date and time
+CREATE TYPE Assignment_Status AS ENUM ('SCHEDULED', 'IN_PROGRESS', 'COMPLETED');
+
 CREATE TABLE public.Assignment
 	(
         AssignmentID 			 Serial NOT NULL, -- done
@@ -104,6 +106,7 @@ CREATE TABLE public.Assignment
         StartTime          Time,
 				StartDate					 Date,
         RouteName     		 character varying(50),
+				Status						Assignment_Status NOT NULL,
 				IsArchived boolean NOT NULL,
         Primary Key ( AssignmentID ), -- done
         Foreign Key ( DriverID ) References public.Driver ( "ID" ),
