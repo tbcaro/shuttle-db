@@ -1,5 +1,6 @@
 -- Drop Table Section----------------------------------------------
-/*	Drop Table Service CASCADE;
+/*
+Drop Table Service CASCADE;
 Drop Table public.User CASCADE;
 Drop Table Driver CASCADE;
 Drop TABLE Shuttle CASCADE;
@@ -10,8 +11,23 @@ Drop TABLE Shuttle_Activity CASCADE;
 Drop TABLE public.Assignment CASCADE;
 Drop TABLE Assignment_Stop CASCADE;
 Drop type UserType;
-Drop Type shuttle_status*/
--- Create Table Section--------------------------------------------
+Drop Type shuttle_status;
+Drop Type Assignment_Status;
+*/
+-- Create Table Section-
+-- Delete Data Section-
+/*
+DELETE FROM Shuttle_Activity;
+DELETE FROM Assignment_Stop;
+DELETE FROM Route_Stop;
+DELETE FROM public.Assignment;
+DELETE FROM Driver;
+DELETE FROM Shuttle;
+DELETE FROM Stop;
+DELETE FROM Route;
+DELETE FROM public.User;
+DELETE FROM Service;
+*/
 -- Insert Table Section--------------------------------------------
 Insert into Service
 	( ServiceCode , PublicID , Address , IsActive )
@@ -19,7 +35,9 @@ Insert into Service
 	('DTHHMOON','Double Tree Moon Twp.','8402 University Blvd, Moon, PA 15108',TRUE),
 	('LQInnPittAir','La Quinta Inn Pittsburgh Airport','8507 University Blvd, Moon, PA 15108', True),
 	('SheratonPittAir','Sheraton Pittsburgh Airport','1160 Thorn Run Rd, Coraopolis, PA 15108',True),
-	('RenPitt','Renaissance Pittsburgh Hotel','107 6th St, Pittsburgh, PA 15222', False);
+	('RenPitt','Renaissance Pittsburgh Hotel','107 6th St, Pittsburgh, PA 15222', False),
+	('clarionshuttle','clarionshuttles','840 Wood Street, Clarion, PA 16214', true),
+	('old_clarionshuttle','old_clarionshuttles','840 Wood Street, Clarion, PA 16214', false);
 
 Insert into public.User
 	( ServiceID , FName , LName , UserName , "Password" , UserType )
@@ -31,7 +49,9 @@ Insert into public.User
 	(1,'Eachary','Eruise','ekruise','bigboy3','DISPATCHER'),
 	(1,'Fachary','Fruise','fkruise','bigboy4','DRIVER'),
 	(2,'Gachary','Gruise','gkruise','bigboy2','DRIVER'),
-	(2,'Hachary','Hruise','hkruise','bigboy5','DRIVER');
+	(2,'Hachary','Hruise','hkruise','bigboy5','DRIVER'),
+	(5,'Travis','Caro','tcaro','password1','DISPATCHER'),
+	(5,'Travis','Caro','tcaro_driver','password1','DRIVER');
 
 Insert into Driver
 	( ServiceID , "ID" , IsActive , IsArchived )
@@ -41,7 +61,8 @@ Insert into Driver
 	(2,4,TRUE,FALSE),
 	(1,6,TRUE,FALSE),
 	(2,7,TRUE,FALSE),
-	(2,8,TRUE,FALSE);
+	(2,8,TRUE,FALSE),
+	(5,10,true,false);
 
 Insert into Shuttle
 	( ServiceID, "Name",IconColor, IsActive, IsArchived)
