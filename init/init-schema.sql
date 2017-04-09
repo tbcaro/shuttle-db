@@ -94,7 +94,7 @@ CREATE TABLE Route_Stop
 
 -- reference assignment and make a current index
 --starttime split between date and time
-CREATE TYPE Assignment_Status AS ENUM ('SCHEDULED', 'IN_PROGRESS', 'COMPLETED');
+CREATE TYPE Assignment_Status AS ENUM ('SCHEDULED', 'UNFINISHED', 'IN_PROGRESS', 'COMPLETED');
 
 CREATE TABLE public.Assignment
 	(
