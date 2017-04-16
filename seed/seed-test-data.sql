@@ -30,14 +30,14 @@ DELETE FROM Service;
 */
 -- Insert Table Section--------------------------------------------
 Insert into Service
-	( ServiceCode , PublicID , Address , IsActive )
+	( ServiceCode , ServiceName, PublicID , Address , IsActive )
 	Values
-	('DTHHMOON','Double Tree Moon Twp.','8402 University Blvd, Moon, PA 15108',TRUE),
-	('LQInnPittAir','La Quinta Inn Pittsburgh Airport','8507 University Blvd, Moon, PA 15108', True),
-	('SheratonPittAir','Sheraton Pittsburgh Airport','1160 Thorn Run Rd, Coraopolis, PA 15108',True),
-	('RenPitt','Renaissance Pittsburgh Hotel','107 6th St, Pittsburgh, PA 15222', False),
-	('clarionshuttle','clarionshuttles','840 Wood Street, Clarion, PA 16214', true),
-	('old_clarionshuttle','old_clarionshuttles','840 Wood Street, Clarion, PA 16214', false);
+	('DTHHMOON','Double Tree Moon Twp.', 'Double Tree Moon Twp.','8402 University Blvd, Moon, PA 15108',TRUE),
+	('LQInnPittAir','La Quinta Inn Pittsburgh Airport','La Quinta Inn Pittsburgh Airport','8507 University Blvd, Moon, PA 15108', True),
+	('SheratonPittAir', 'Sheraton Pittsburgh Airport','Sheraton Pittsburgh Airport','1160 Thorn Run Rd, Coraopolis, PA 15108',True),
+	('RenPitt','Renaissance Pittsburgh Hotel','Renaissance Pittsburgh Hotel','107 6th St, Pittsburgh, PA 15222', False),
+	('clarionshuttle','Clarion Shuttle Company','clarionshuttle', '840 Wood Street, Clarion, PA 16214', true),
+	('old_clarionshuttle','Old Clarion Shuttles','old_clarionshuttles','840 Wood Street, Clarion, PA 16214', false);
 
 Insert into public.User
 	( ServiceID , FName , LName , UserName , "Password" , UserType )
@@ -111,12 +111,12 @@ Insert into Route_Stop
 	('3','11','2'),
 	('3','10','3');
 
-Insert into Shuttle_Activity
-	(ShuttleID, Latitude, Longitude, Status, heading)
-	Values
-	  ('1',40.503018, -80.222190,'ACTIVE', 0),
-	  ('2',40.496026, -80.255678,'DRIVING', 90),
-	  ('4',40.512778, -80.276555,'AT_STOP', 180);
+-- Insert into Shuttle_Activity
+-- 	(ShuttleID, Latitude, Longitude, Status, heading)
+-- 	Values
+-- 	  ('1',40.503018, -80.222190,'ACTIVE', 0),
+-- 	  ('2',40.496026, -80.255678,'DRIVING', 90),
+-- 	  ('4',40.512778, -80.276555,'AT_STOP', 180);
 
 Insert into public.Assignment
 	(ServiceID, DriverID, ShuttleID, RouteID, StartTime, RouteName, Status, isarchived)

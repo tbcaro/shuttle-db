@@ -2,6 +2,7 @@ CREATE TABLE Service
 	(
 		ServiceID 									  serial Unique,
 		ServiceCode 						character varying(50) NOT NULL Unique,
+		ServiceName					character varying(50) NOT NULL,
 		PublicID 						character varying(50) NOT NULL Unique,
 		Address 							character varying(50) NOT NULL,
 		-- StopToleranceRadius 					 double precision NOT NULL,
@@ -140,7 +141,6 @@ CREATE TABLE Shuttle_Activity
 		 ShuttleID		  	INT NOT NULL Unique,
 		 DriverID					INT,
      AssignmentID     INT,
-		 Assignment_Stop_ID INT,
 		 "Index"					INT,
 		 Latitude         Decimal(16,13) NOT NULL,
 		 Longitude 		    Decimal(16,13) NOT NULL,
