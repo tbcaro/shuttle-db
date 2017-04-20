@@ -86,7 +86,8 @@ Insert into Shuttle
 	(2,'Bus2','#FA3489',True,False),
 	(3,'Truck1','#FFD151',True,False),
 	(3,'Truck2','#003489',True,False),
-	(3,'Truck3','#00ffff',True,False);
+	(3,'Truck3','#00ffff',True,False),
+	(3,'Truck4','#72cc00',True,False);
 
 Insert into Stop
 	( ServiceID , "Name" , Address , Latitude , Longitude , IsArchived )
