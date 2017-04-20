@@ -46,10 +46,10 @@ Insert into public.User
 	 (2, 'Evelyn', 'Armstrong', 'earmstronge', 'aaa', 'DISPATCHER'),
 
 	 (2, 'Pamela', 'Johnson', 'pjohnsonm', 'aaa', 'DISPATCHER'),
-	 (2, 'Wanda', 'Griffin', 'wgriffino', 'aaa', 'DISPATCHER'),
 		(3,'Test','Dispatcher1','test_dispatcher1','aaa','DISPATCHER'),
 		(3,'Test','Dispatcher2','test_dispatcher2','aaa','DISPATCHER'),
 		(3,'Test','Dispatcher3','test_dispatcher3','aaa','DISPATCHER'),
+		(3,'Test','Dispatcher4','test_dispatcher4','aaa','DISPATCHER'),
 
 		(1, 'Amy', 'Barnes', 'abarnes0', 'aaa', 'DRIVER'),
 		(1, 'Nancy', 'Alvarez', 'nalvareza', 'aaa', 'DRIVER'),
@@ -58,10 +58,10 @@ Insert into public.User
 		(2, 'Diana', 'Morgan', 'dmorganl', 'aaa', 'DRIVER'),
 
 		(2, 'Kevin', 'Rivera', 'kriveran', 'aaa', 'DRIVER'),
-	 (3, 'Melissa', 'Torres', 'mtorres1', 'aaa', 'DRIVER'),
 	 (3,'Test','Driver1','test_driver1','aaa','DRIVER'),
 		(3,'Test','Driver2','test_driver2','aaa','DRIVER'),
-		(3,'Test','Driver3','test_driver3','aaa','DRIVER');
+		(3,'Test','Driver3','test_driver3','aaa','DRIVER'),
+		(3, 'Test', 'Driver4', 'test_driver4', 'aaa', 'DRIVER');
 
 Insert into Driver
 	( ServiceID , "ID" , IsActive , IsArchived )
