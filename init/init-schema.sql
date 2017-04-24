@@ -153,3 +153,15 @@ CREATE TABLE Shuttle_Activity
 	Foreign Key ( ShuttleID ) References public.Shuttle ( "ID" ),
 	Foreign Key ( AssignmentID ) References public.Assignment ( AssignmentID )
 );
+
+CREATE TABLE Simulation_Cycle
+(
+	ShuttleID		  	INT NOT NULL,
+	DriverID					INT,
+	Latitude         Decimal(16,13) NOT NULL,
+	Longitude 		    Decimal(16,13) NOT NULL,
+	Heading					Decimal(16,13) NOT NULL,
+	Status 			Shuttle_Status NOT NULL,
+	Foreign Key ( DriverID ) References public.Driver ( "ID" ),
+	Foreign Key ( ShuttleID ) References public.Shuttle ( "ID" )
+);
